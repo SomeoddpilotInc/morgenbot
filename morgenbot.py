@@ -361,9 +361,12 @@ def help(topic=''):
 
 @app.route("/", methods=['POST'])
 def main():
+    global channel
     # ignore message we sent
     msguser = request.form.get("user_name", "").strip()
     if msguser == username or msguser.lower() == "slackbot": return
+
+    channel = ("#%s" % request.form.get("channel_name", "").strip())
 
     text = request.form.get("text", "")
 
