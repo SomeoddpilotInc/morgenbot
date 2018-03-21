@@ -123,9 +123,11 @@ def standup_users():
     active_users = []
 
     for user_id in standup_users:
-        user_name = slack.users.info(user_id).body['user']['name']
-        is_deleted = slack.users.info(user_id).body['user']['deleted']
-        if not is_deleted and user_name not in ignore_users_array and user_name not in absent_users:
+        user = slack.users.info(user_id).body['user']
+        user_name = user['name']
+        is_deleted = user['deleted']
+        is_bot = user['is_bot']
+        if not is_deleted and if not is_bot and user_name not in ignore_users_array and user_name not in absent_users:
             active_users.append(user_name)
 
     # don't forget to shuffle so we don't go in the same order every day!
@@ -209,7 +211,7 @@ def ignoring():
 def skip():
     post_message('Skipping @%s.' % current_user)
     next()
-    
+
 def later():
     post_message('We\'ll call on @%s later.' % current_user)
     users.append(current_user)
@@ -373,7 +375,7 @@ def main():
         help(args)
     elif command == 'ready':
         ready(msguser)
-        
+
     return json.dumps({ })
 
 if __name__ == "__main__":
