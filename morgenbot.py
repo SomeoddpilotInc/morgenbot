@@ -353,7 +353,7 @@ def main():
         else:
             post_message('Not sure what "%s" is.' % command)
         return json.dumps({ })
-    elif not in_progress and command != 'standup' and command != 'help' and command != 'ignore' and command != 'heed' and command != 'ignoring':
+    elif not in_progress and command != 'standup' and command != 'help' and command != 'ignore' and command != 'heed' and command != 'ignoring' and command != 'who':
         post_message('Looks like standup hasn\'t started yet. Type !standup.')
         return json.dumps({ })
 
