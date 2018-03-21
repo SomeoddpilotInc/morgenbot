@@ -135,6 +135,14 @@ def standup_users():
 
     return active_users
 
+def who():
+    global ignore_users
+    global absent_users
+    active_users = standup_users()
+
+    if len(active_users) != 0:
+        post_message('Here\'s who we\'re going to call: ' + ', '.join(active_users))
+
 def next():
     global users
     global current_user
@@ -371,6 +379,8 @@ def main():
         heed(args)
     elif command == 'ignoring':
         ignoring()
+    elif command == 'who':
+        who()
     elif command == 'help':
         help(args)
     elif command == 'ready':
