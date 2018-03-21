@@ -150,12 +150,14 @@ def standup_users():
     return active_users
 
 def manual_standup_users(args, msguser):
-    users = args.split("@")
-    trimmed_users = map(str.strip, users)
-    trimmed_users.append(msguser)
+    users = []
+    user_ids = re.findall(r"<@(.*?)>", args)
+    for user_id in user_ids:
+        users.append(get_user(user_id))
+    users.append(msguser)
     # don't forget to shuffle so we don't go in the same order every day!
-    random.shuffle(trimmed_users)
-    return trimmed_users
+    random.shuffle(users)
+    return users
 
 def who():
     global ignore_users
