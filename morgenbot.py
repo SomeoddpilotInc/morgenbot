@@ -142,6 +142,8 @@ def who():
 
     if len(active_users) != 0:
         post_message('Here\'s who we\'re going to call: ' + ', '.join(active_users))
+    else:
+        post_message('No one is eligible for standups here. Sorry.')
 
 def next():
     global users
