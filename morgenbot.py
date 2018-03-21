@@ -331,6 +331,8 @@ def help(topic=''):
         post_message('Type !ignoring to find out who we\'re skipping over for standups')
     elif topic == 'ready' or topic == '!ready':
         post_message('Type !ready to skip ahead in the queue and give your standup immediately')
+    elif topic == 'who' or topic == '!who':
+        post_message('Type !who to see who I will call on each standup.')
     else:
         post_message('Not sure what "%s" is.' % topic)
         if giphy:
