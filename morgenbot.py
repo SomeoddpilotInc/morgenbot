@@ -146,6 +146,8 @@ def standup_users():
 def manual_standup_users(args):
     users = args.split("@")
     trimmed_users = map(str.strip, users)
+    # don't forget to shuffle so we don't go in the same order every day!
+    random.shuffle(trimmed_users)
     return trimmed_users
 
 def who():
