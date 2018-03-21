@@ -53,7 +53,7 @@ def get_channel(id):
     channel = slack.channels.info(id).body
     return channel['channel']['name']
 
-def init():
+def init(args):
     global users
     global topics
     global time
@@ -62,11 +62,17 @@ def init():
     if len(users) != 0:
         post_message('Looks like we have a standup already in process.')
         return
-    users = standup_users()
+    if len(args) < 1:
+        users = standup_users()
+    else:
+        users = manual_standup_users(args)
     topics = []
     time = []
     in_progress = True
-    post_message('%s, @channel! Please type !start when you are ready to stand up.' % init_greeting)
+    if len(args) < 1:
+        post_message('%s, @channel! Please type !start when you are ready to stand up.' % init_greeting)
+    else:
+        post_message('%s! Please type !start when you are ready to stand up.' % init_greeting)
 
 def start():
     global time
@@ -137,13 +143,23 @@ def standup_users():
 
     return active_users
 
+def manual_standup_users(args):
+    users = args.split("@")
+    trimmed_users = map(str.strip, users)
+    return trimmed_users
+
 def who():
     global ignore_users
     global absent_users
-    active_users = standup_users()
+    global users
+    who_users = standup_users()
 
-    if len(active_users) != 0:
-        post_message('Here\'s who we\'re going to call: ' + ', '.join(active_users))
+    if len(users) != 0:
+        post_message('Here\'s who we\'re going to call: ' + ', '.join(users))
+        return
+
+    if len(who_users) != 0:
+        post_message('Here\'s who we\'re going to call: ' + ', '.join(who_users))
     else:
         post_message('No one is eligible for standups here. Sorry.')
 
@@ -308,7 +324,7 @@ def help(topic=''):
 
     topic = topic[1:]
     if topic == 'standup' or topic == '!standup':
-        post_message('Type !standup to initiate a new standup')
+        post_message('Type !standup to initiate a new standup. You can also keep it to certain members using !standup <usernames>.')
     elif topic == 'start' or topic == '!start':
         post_message('Type !start to get started with standup once everyone is ready')
     elif topic == 'cancel' or topic == '!cancel':
@@ -364,7 +380,7 @@ def main():
         return json.dumps({ })
 
     if command == 'standup':
-        init()
+        init(args)
     elif command == 'start':
         start()
     elif command == 'cancel':
