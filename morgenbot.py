@@ -7,7 +7,6 @@ import datetime
 import time
 import random
 import urllib2
-import logging
 
 from slacker import Slacker
 
@@ -59,11 +58,6 @@ def init(args, msguser):
     global topics
     global time
     global in_progress
-
-    logging.basicConfig(level=logging.INFO)
-    logger = logging.getLogger(__name__)
-    logger.info(args)
-    logger.info(msguser)
 
     if len(users) != 0:
         post_message('Looks like we have a standup already in process.')
