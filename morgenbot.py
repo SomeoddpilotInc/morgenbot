@@ -53,7 +53,7 @@ def get_channel(id):
     channel = slack.channels.info(id).body
     return channel['channel']['name']
 
-def init(args):
+def init(args, msguser):
     global users
     global topics
     global time
@@ -65,7 +65,7 @@ def init(args):
     if len(args) < 1:
         users = standup_users()
     else:
-        users = manual_standup_users(args)
+        users = manual_standup_users(args, msguser)
     topics = []
     time = []
     in_progress = True
@@ -143,9 +143,10 @@ def standup_users():
 
     return active_users
 
-def manual_standup_users(args):
+def manual_standup_users(args, msguser):
     users = args.split("@")
     trimmed_users = map(str.strip, users)
+    trimmed_users.append(msguser)
     # don't forget to shuffle so we don't go in the same order every day!
     random.shuffle(trimmed_users)
     return trimmed_users
@@ -382,7 +383,7 @@ def main():
         return json.dumps({ })
 
     if command == 'standup':
-        init(args)
+        init(args, msguser)
     elif command == 'start':
         start()
     elif command == 'cancel':
