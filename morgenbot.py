@@ -127,7 +127,9 @@ def standup_users():
         user_name = user['name']
         is_deleted = user['deleted']
         is_bot = user['is_bot']
-        if not is_deleted and if not is_bot and user_name not in ignore_users_array and user_name not in absent_users:
+        if is_bot:
+            continue
+        if not is_deleted and user_name not in ignore_users_array and user_name not in absent_users:
             active_users.append(user_name)
 
     # don't forget to shuffle so we don't go in the same order every day!
