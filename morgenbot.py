@@ -17,7 +17,7 @@ curdir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(curdir)
 
 slack = Slacker(os.getenv('TOKEN'))
-username = os.getenv('USERNAME', 'morgenbot')
+username = os.getenv('USERNAME', 'standup-bot')
 icon_emoji = os.getenv('ICON_EMOJI', ':coffee:')
 channel = os.getenv('CHANNEL', '#standup')
 ignore_users = os.getenv('IGNORE_USERS', '[]')
