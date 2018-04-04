@@ -370,6 +370,9 @@ def main():
 
     text = request.form.get("text", "")
 
+    if text[0] == '!':
+        if text[1] == '!': return
+
     match = re.findall(r"^!(\S+)", text)
     if not match: return
 
